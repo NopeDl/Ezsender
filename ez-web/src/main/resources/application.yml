@@ -1,0 +1,16 @@
+spring:
+  application: Ezsender
+  rabbitmq:
+    username: yeyeye
+    password: XLxgz0902.
+    host: 110.41.21.66
+    port: 5672
+
+#短信业务
+sms:
+  ali:
+    accessKeyId: LTAI5tH1AgySLf8N6SEMSp52
+    accessKeySecret: WCucdPIMEw6RuIgAcBopS743eU2y75
+
+
+
