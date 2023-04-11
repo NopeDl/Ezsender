@@ -9,8 +9,8 @@ spring:
 #短信业务
 sms:
   ali:
-    accessKeyId: LTAI5tH1AgySLf8N6SEMSp52
-    accessKeySecret: WCucdPIMEw6RuIgAcBopS743eU2y75
+    accessKeyId:
+    accessKeySecret:
 
 
 
