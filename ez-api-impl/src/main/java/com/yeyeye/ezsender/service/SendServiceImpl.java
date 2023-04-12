@@ -4,8 +4,7 @@ import com.yeyeye.ezsender.pipline.ProcessContext;
 import com.yeyeye.ezsender.pipline.ProcessController;
 import com.yeyeye.ezsender.pojo.SendRequest;
 import com.yeyeye.ezsender.pojo.SendResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired ;
 import org.springframework.stereotype.Service;
 
 /**

@@ -5,6 +5,12 @@ spring:
     password: XLxgz0902.
     host: 110.41.21.66
     port: 5672
+  datasource:
+    username: yeyeye
+    password: XLxgz0902.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://110.41.21.66:3306/ez_sender
+    type: com.alibaba.druid.pool.DruidDataSource
 
 #短信业务
 sms:

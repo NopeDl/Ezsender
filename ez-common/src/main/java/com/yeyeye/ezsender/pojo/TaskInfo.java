@@ -12,7 +12,15 @@ import java.util.Map;
 @Data
 @Builder
 public class TaskInfo {
+    /**
+     * 任务所属模板ID
+     */
     private Long messageTemplateId;
+
+    /**
+     * 任务所属类型 短信、邮箱或者其他
+     */
+    private Integer taskType;
     /**
      * 消息接受者
      */

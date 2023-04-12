@@ -33,6 +33,11 @@
             <artifactId>ez-api-impl</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.yeyeye</groupId>
+            <artifactId>ez-data</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <artifactId>ez-web</artifactId>

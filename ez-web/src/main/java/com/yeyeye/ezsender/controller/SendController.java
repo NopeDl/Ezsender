@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.yeyeye.ezsender.enums.OperateCode;
 import com.yeyeye.ezsender.enums.Params;
 import com.yeyeye.ezsender.enums.ResponseStatus;
+import com.yeyeye.ezsender.mapper.MessageTemplateMapper;
 import com.yeyeye.ezsender.pojo.RequestParamTemplate;
 import com.yeyeye.ezsender.pojo.SendRequest;
 import com.yeyeye.ezsender.pojo.SendResponse;
@@ -34,6 +35,15 @@ public class SendController {
 
     @Autowired
     private SendService sendService;
+
+    @Autowired
+    private MessageTemplateMapper mapper;
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public void testMapper(){
+        System.out.println(mapper.selectCount(null));
+    }
 
 //    @RequestMapping("/send1")
 //    @ResponseBody

@@ -19,4 +19,5 @@ public class RequestParamTemplate {
      * 消息参数
      */
     private String content;
+
 }
