@@ -1,6 +1,5 @@
 package com.yeyeye.ezsender.receiver;
 
-import com.alibaba.fastjson.JSON;
 import com.yeyeye.ezsender.enums.MQConstant;
 import com.yeyeye.ezsender.pojo.TaskInfo;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

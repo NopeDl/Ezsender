@@ -30,6 +30,11 @@
             <artifactId>ez-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.yeyeye</groupId>
+            <artifactId>ez-data</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <properties>
