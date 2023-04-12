@@ -12,6 +12,7 @@ import java.util.Map;
 @Data
 @Builder
 public class TaskInfo {
+    private Long messageTemplateId;
     /**
      * 消息接受者
      */
@@ -21,4 +22,5 @@ public class TaskInfo {
      * 填充模板的参数
      */
     private Map<String, String> messageParams;
+
 }

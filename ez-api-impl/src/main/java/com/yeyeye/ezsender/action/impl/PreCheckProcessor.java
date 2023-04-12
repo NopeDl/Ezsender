@@ -1,6 +1,6 @@
 package com.yeyeye.ezsender.action.impl;
 
-import com.yeyeye.ezsender.action.BaseProcessor;
+import com.yeyeye.ezsender.action.Processor;
 import com.yeyeye.ezsender.enums.Params;
 import com.yeyeye.ezsender.enums.ResponseStatus;
 import com.yeyeye.ezsender.pipline.ProcessContext;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
  * @Date 2023/4/7 21:21
  */
 @Component
-public class PreCheckProcessor extends BaseProcessor {
+public class PreCheckProcessor implements Processor {
 
     @Override
-    protected void doProcess(ProcessContext context) {
+    public void process(ProcessContext context) {
         SendRequest request = context.getRequest();
         if (request == null) {
             context.setNeedBreak(true);

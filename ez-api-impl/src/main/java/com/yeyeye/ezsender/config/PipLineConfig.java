@@ -7,7 +7,7 @@ import com.yeyeye.ezsender.action.impl.SendMq;
 import com.yeyeye.ezsender.enums.OperateCode;
 import com.yeyeye.ezsender.pipline.ProcessController;
 import com.yeyeye.ezsender.pipline.ProcessTemplate;
-import com.yeyeye.ezsender.pipline.Processor;
+import com.yeyeye.ezsender.action.Processor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

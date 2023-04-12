@@ -1,6 +1,6 @@
 package com.yeyeye.ezsender.action.impl;
 
-import com.yeyeye.ezsender.action.BaseProcessor;
+import com.yeyeye.ezsender.action.Processor;
 import com.yeyeye.ezsender.enums.Params;
 import com.yeyeye.ezsender.enums.ResponseStatus;
 import com.yeyeye.ezsender.pipline.ProcessContext;
@@ -18,12 +18,12 @@ import java.util.Map;
  * @Date 2023/4/10 21:35
  */
 @Component
-public class PostCheckProcessor extends BaseProcessor {
+public class PostCheckProcessor implements Processor {
     private static final String PHONE_REGEX = "^1(3[0-9]|5[0-3,5-9]|7[1-3,5-8]|8[0-9])\\d{8}$";
     private static final String MAIL_REGEX = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
 
     @Override
-    protected void doProcess(ProcessContext context) {
+    public void process(ProcessContext context) {
         //检查参数
         List<TaskInfo> taskInfos = context.getTaskInfos();
         if (taskInfos == null) {

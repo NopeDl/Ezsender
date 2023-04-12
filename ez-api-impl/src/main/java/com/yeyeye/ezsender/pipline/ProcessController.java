@@ -1,7 +1,6 @@
 package com.yeyeye.ezsender.pipline;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.yeyeye.ezsender.action.Processor;
 import com.yeyeye.ezsender.enums.OperateCode;
 import lombok.Data;
 
@@ -23,6 +22,9 @@ public class ProcessController {
         List<Processor> processorList = processTemplate.getProcessorList();
         for (Processor processor : processorList) {
             processor.process(context);
+            if (context.isNeedBreak()) {
+                break;
+            }
         }
         System.out.println("退出处理控制");
     }

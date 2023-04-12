@@ -1,5 +1,6 @@
 package com.yeyeye.ezsender.pipline;
 
+import com.yeyeye.ezsender.action.Processor;
 import lombok.Builder;
 import lombok.Data;
 

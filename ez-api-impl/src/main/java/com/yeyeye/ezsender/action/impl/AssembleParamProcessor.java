@@ -1,6 +1,6 @@
 package com.yeyeye.ezsender.action.impl;
 
-import com.yeyeye.ezsender.action.BaseProcessor;
+import com.yeyeye.ezsender.action.Processor;
 import com.yeyeye.ezsender.pipline.ProcessContext;
 import com.yeyeye.ezsender.pojo.SendRequest;
 import com.yeyeye.ezsender.pojo.TaskInfo;
@@ -19,9 +19,9 @@ import static com.yeyeye.ezsender.enums.Params.MESSAGE_TEMPLATE_ID;
  * @Date 2023/4/10 21:09
  */
 @Component
-public class AssembleParamProcessor extends BaseProcessor {
+public class AssembleParamProcessor implements Processor {
     @Override
-    protected void doProcess(ProcessContext context) {
+    public void process(ProcessContext context) {
         SendRequest request = context.getRequest();
         //复制一份
         Map<String, String> params;

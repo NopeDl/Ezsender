@@ -1,4 +1,6 @@
-package com.yeyeye.ezsender.pipline;
+package com.yeyeye.ezsender.action;
+
+import com.yeyeye.ezsender.pipline.ProcessContext;
 
 /**
  * @author yeyeye
