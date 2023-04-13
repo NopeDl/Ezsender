@@ -1,4 +1,21 @@
+spring:
+  application: Ezsender
+  rabbitmq:
+    username:
+    password:
+    host:
+    port:
+  datasource:
+    username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:
+    type: com.alibaba.druid.pool.DruidDataSource
 
-
+#短信业务
+sms:
+  ali:
+    accessKeyId:
+    accessKeySecret:
 
 
