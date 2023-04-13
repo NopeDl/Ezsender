@@ -19,9 +19,7 @@ public class SendServiceImpl implements SendService {
     @Override
     public SendResponse send(SendRequest request) {
         ProcessContext context = ProcessContext.builder().request(request).response(SendResponse.success()).build();
-        System.out.println("执行中....");
         processController.process(context);
-        System.out.println("执行完毕....");
         return context.getResponse();
     }
 }

@@ -26,17 +26,17 @@ public class PostCheckProcessor implements Processor {
     public void process(ProcessContext context) {
         //检查参数
         List<TaskInfo> taskInfos = context.getTaskInfos();
-        if (taskInfos == null) {
+        if (taskInfos == null || taskInfos.size() == 0) {
             context.setNeedBreak(true);
             context.setResponse(SendResponse.fail(ResponseStatus.LOSING_PARAMS));
             return;
         }
-        //说明出现未规定的参数
-        if (taskInfos.size() > Params.SIZE) {
-            context.setNeedBreak(true);
-            context.setResponse(SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS));
-            return;
-        }
+//        //说明出现未规定的参数
+//        if (taskInfos.size() > Params.SIZE) {
+//            context.setNeedBreak(true);
+//            context.setResponse(SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS));
+//            return;
+//        }
 
         taskInfos.forEach((taskInfo) -> {
             //验证接受者格式是否匹配
@@ -47,23 +47,23 @@ public class PostCheckProcessor implements Processor {
                 return;
             }
 
-            //验证参数
-            Map<String, String> messageParams = taskInfo.getMessageParams();
-            for (String key : messageParams.keySet()) {
-                //不是规定参数
-                if (Params.get(key) == null) {
-                    context.setNeedBreak(true);
-                    context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "非法参数: " + key));
-                    return;
-                }
-
-                //参数为null或为空串
-                if (messageParams.get(key) == null || "".equals(messageParams.get(key))) {
-                    context.setNeedBreak(true);
-                    context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "参数不能为空: " + key));
-                    return;
-                }
-            }
+//            //验证参数
+//            Map<String, String> messageParams = taskInfo.getMessageParams();
+//            for (String key : messageParams.keySet()) {
+//                //不是规定参数
+//                if (Params.get(key) == null) {
+//                    context.setNeedBreak(true);
+//                    context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "非法参数: " + key));
+//                    return;
+//                }
+//
+//                //参数为null或为空串
+//                if (messageParams.get(key) == null || "".equals(messageParams.get(key))) {
+//                    context.setNeedBreak(true);
+//                    context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "参数不能为空: " + key));
+//                    return;
+//                }
+//            }
         });
     }
 }

@@ -39,6 +39,5 @@ public class PreCheckProcessor implements Processor {
             context.setResponse(new SendResponse(ResponseStatus.LOSING_PARAMS.getCode(), Params.RECEIVER.getContent()));
             return;
         }
-        System.out.println("预处理执行");
     }
 }

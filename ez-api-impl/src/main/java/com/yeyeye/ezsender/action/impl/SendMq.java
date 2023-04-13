@@ -19,7 +19,8 @@ public class SendMq implements Processor {
 
     @Override
     public void process(ProcessContext context) {
-        String taskInfoStr = JSON.toJSONString(context.getTaskInfos());
-        rabbitTemplate.convertAndSend(MQConstant.EXCHANGE_NAME, MQConstant.ROUTING_KEY, taskInfoStr);
+//        String taskInfoStr = JSON.toJSONString(context.getTaskInfos());
+//        System.out.println(taskInfoStr);
+        rabbitTemplate.convertAndSend(MQConstant.EXCHANGE_NAME, MQConstant.ROUTING_KEY, context.getTaskInfos());
     }
 }
