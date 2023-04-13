@@ -1,5 +1,7 @@
 package com.yeyeye.ezsender.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.yeyeye.ezsender.enums.ResponseStatus;
 import com.yeyeye.ezsender.mapper.MessageTemplateMapper;
 import com.yeyeye.ezsender.pojo.SendResponse;
 import com.yeyeye.ezsender.pojo.po.MessageTemplate;
@@ -22,8 +24,11 @@ public class messageTemplateController {
     @RequestMapping("/add")
     @ResponseBody
     public SendResponse addTemplate(@RequestBody MessageTemplate messageTemplate) {
-        int insert = messageTemplateMapper.insert(messageTemplate);
-        return new SendResponse("新建成功", insert + "");
+        if (JSONObject.isValid(messageTemplate.getContent())) {
+            int insert = messageTemplateMapper.insert(messageTemplate);
+            return new SendResponse("新建成功", insert + "");
+        }
+        return SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.yeyeye.ezsender.handler.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.yeyeye.ezsender.enums.Params;
 import com.google.gson.Gson;
 import com.yeyeye.ezsender.handler.Handler;
@@ -28,8 +29,8 @@ public class SmsHandler implements Handler {
                 .phoneNumbers(taskInfo.getReceiver())
                 .templateCode(taskInfo.getMessageParams().get(Params.MESSAGE_TEMPLATE_CODE.getContent()))
                 .signName(taskInfo.getMessageParams().get(Params.SIGN_NAME.getContent()))
-                .templateParam(new Gson().toJson(taskInfo.getMessageParams()))
+                .templateParam(taskInfo.getMessageParams().get(Params.CONTENT.getContent()))
                 .build());
-        System.out.println(new Gson().toJson(send));
+        System.out.println(JSON.toJSONString(send));
     }
 }

@@ -1,7 +1,9 @@
 package com.yeyeye.ezsender.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
@@ -11,6 +13,8 @@ import java.util.Map;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskInfo {
     /**
      * 任务所属模板ID
@@ -30,5 +34,4 @@ public class TaskInfo {
      * 填充模板的参数
      */
     private Map<String, String> messageParams;
-
 }

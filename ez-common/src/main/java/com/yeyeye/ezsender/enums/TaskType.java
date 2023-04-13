@@ -1,5 +1,7 @@
 package com.yeyeye.ezsender.enums;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import java.util.Map;
  * @author yeyeye
  * @Date 2023/4/12 22:00
  */
+@Getter
 public enum TaskType {
     SMS(101);
 
