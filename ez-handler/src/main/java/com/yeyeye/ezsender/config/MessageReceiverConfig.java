@@ -2,6 +2,7 @@ package com.yeyeye.ezsender.config;
 
 import com.yeyeye.ezsender.enums.TaskType;
 import com.yeyeye.ezsender.handler.Handler;
+import com.yeyeye.ezsender.handler.impl.MailHandler;
 import com.yeyeye.ezsender.handler.impl.SmsHandler;
 import com.yeyeye.ezsender.receiver.TaskDispatcher;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -22,24 +23,24 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class MessageReceiverConfig {
     @Bean
-    public TaskDispatcher taskDispatcher() {
+    public TaskDispatcher taskDispatcher(SmsHandler smsHandler, MailHandler mailHandler) {
         ThreadPoolExecutor smsPool = new ThreadPoolExecutor(4,
                 6,
                 1,
                 TimeUnit.SECONDS,
                 new ArrayBlockingQueue<>(5));
-        return new TaskDispatcher().registry(TaskType.SMS.getCode(), smsPool);
+        ThreadPoolExecutor mailPool = new ThreadPoolExecutor(4,
+                6,
+                1,
+                TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(5));
+        return new TaskDispatcher()
+                .registry(TaskType.SMS.getCode(), smsPool, smsHandler)
+                .registry(TaskType.MAIL.getCode(), mailPool, mailHandler);
     }
 
     @Bean
-    public Map<Integer, Handler> handlerMap(SmsHandler smsHandler) {
-        Map<Integer, Handler> handlerMap = new HashMap<>();
-        handlerMap.put(TaskType.SMS.getCode(), smsHandler);
-        return handlerMap;
-    }
-
-    @Bean
-    public MessageConverter messageConverter(){
+    public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 }
