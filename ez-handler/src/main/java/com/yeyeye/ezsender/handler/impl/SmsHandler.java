@@ -2,7 +2,6 @@ package com.yeyeye.ezsender.handler.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yeyeye.ezsender.enums.Params;
-import com.google.gson.Gson;
 import com.yeyeye.ezsender.handler.Handler;
 import com.yeyeye.ezsender.pojo.SmsInfo;
 import com.yeyeye.ezsender.pojo.SmsRecord;

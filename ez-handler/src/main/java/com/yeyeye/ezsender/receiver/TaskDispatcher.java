@@ -1,6 +1,7 @@
 package com.yeyeye.ezsender.receiver;
 
 import com.yeyeye.ezsender.enums.TaskType;
+import com.yeyeye.ezsender.handler.Handler;
 import com.yeyeye.ezsender.pojo.TaskInfo;
 
 import java.util.HashMap;
@@ -17,14 +18,22 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class TaskDispatcher {
     private static final Map<Integer, ThreadPoolExecutor> TASK_POOL_MAP = new HashMap<>();
 
-    public TaskDispatcher registry(int taskType, ThreadPoolExecutor pool) {
+    private static final Map<Integer, Handler> TASK_HANDLER_MAP = new HashMap<>();
+
+    public TaskDispatcher registry(int taskType, ThreadPoolExecutor pool, Handler handler) {
         TASK_POOL_MAP.put(taskType, pool);
+        TASK_HANDLER_MAP.put(taskType, handler);
         return this;
     }
 
-    public TaskDispatcher registry(TaskType taskType, ThreadPoolExecutor pool) {
+    public TaskDispatcher registry(TaskType taskType, ThreadPoolExecutor pool, Handler handler) {
         TASK_POOL_MAP.put(taskType.getCode(), pool);
+        TASK_HANDLER_MAP.put(taskType.getCode(), handler);
         return this;
+    }
+
+    public Map<Integer, Handler> getTaskHandlerMap() {
+        return TASK_HANDLER_MAP;
     }
 
     /**

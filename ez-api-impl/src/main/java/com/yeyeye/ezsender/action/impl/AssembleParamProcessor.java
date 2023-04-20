@@ -11,14 +11,14 @@ import com.yeyeye.ezsender.pojo.SendRequest;
 import com.yeyeye.ezsender.pojo.SendResponse;
 import com.yeyeye.ezsender.pojo.TaskInfo;
 import com.yeyeye.ezsender.pojo.po.MessageTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.yeyeye.ezsender.utils.PlaceHolderUtil;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static com.yeyeye.ezsender.enums.Params.MESSAGE_TEMPLATE_ID;
 
 /**
  * 将request参数组装为TaskInfo
@@ -28,7 +28,7 @@ import static com.yeyeye.ezsender.enums.Params.MESSAGE_TEMPLATE_ID;
  */
 @Component
 public class AssembleParamProcessor implements Processor {
-    @Autowired
+    @Resource
     private MessageTemplateMapper messageTemplateMapper;
 
     @Override
@@ -39,14 +39,14 @@ public class AssembleParamProcessor implements Processor {
         //根据模板ID查出模板具体参数
         MessageTemplate messageTemplate = messageTemplateMapper.selectById(request.getMessageTemplateId());
         if (messageTemplate == null) {
-            context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "模板ID错误"));
+            context.setResponse(new SendResponse<>(ResponseStatus.ILLEGAL_PARAMS.getCode(), "模板ID错误"));
             context.setNeedBreak(true);
             return;
         }
         //将模板参数封装进任务信息
         //解析模板内容
         if (!JSONObject.isValid(messageTemplate.getContent())) {
-            context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "模板内容格式错误"));
+            context.setResponse(new SendResponse<>(ResponseStatus.ILLEGAL_PARAMS.getCode(), "模板内容格式错误"));
             context.setNeedBreak(true);
             return;
         }
@@ -58,9 +58,13 @@ public class AssembleParamProcessor implements Processor {
             }
         });
         //处理占位符参数
-        String replacedParam = replacePlaceholder(request.getParams(), (String) parsedContent.get(Params.CONTENT.getContent()));
+        String content = (String) parsedContent.get(Params.CONTENT.getContent());
+        String replacedParam = replacePlaceholder(request.getParams(), content);
         if (replacedParam != null) {
             params.put(Params.CONTENT.getContent(), replacedParam);
+        } else {
+            //说明没有需要替换的
+            params.put(Params.CONTENT.getContent(), content);
         }
         TaskInfo taskInfo = TaskInfo.builder()
                 .messageTemplateId(request.getMessageTemplateId())
@@ -76,18 +80,19 @@ public class AssembleParamProcessor implements Processor {
     /**
      * 替换占位符
      *
-     * @param params  实际参数
-     * @param content 占位符
-     * @return Json
+     * @param reqParams 传的参数
+     * @param content   带占位符的信息
+     * @return Json 填充占位符的Json
      */
-    private String replacePlaceholder(Map<String, String> params, String content) {
-        Map<String, String> placeholders = (Map<String, String>) JSONObject.parse(content);
-        if (placeholders == null || placeholders.size() != params.size()) {
+    private String replacePlaceholder(Map<String, String> reqParams, String content) {
+        List<String> params = PlaceHolderUtil.getParams(content);
+        if (reqParams == null || reqParams.size() != params.size()) {
             return null;
         }
-        placeholders.forEach((k, v) -> {
-            placeholders.put(k, params.get(k));
-        });
-        return JSON.toJSONString(placeholders);
+        Map<String, String> res = new HashMap<>();
+        for (String param : params) {
+            res.put(param, reqParams.get(param));
+        }
+        return JSON.toJSONString(res);
     }
 }
