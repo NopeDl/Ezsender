@@ -17,7 +17,6 @@ public class ProcessController {
     private Map<OperateCode, ProcessTemplate> processTemplateMap;
 
     public void process(ProcessContext context) {
-        System.out.println("进入处理控制器");
         ProcessTemplate processTemplate = processTemplateMap.get(context.getRequest().getOperate());
         List<Processor> processorList = processTemplate.getProcessorList();
         for (Processor processor : processorList) {
@@ -26,7 +25,6 @@ public class ProcessController {
                 break;
             }
         }
-        System.out.println("退出处理控制");
     }
 
     public void registry(OperateCode operateCode, ProcessTemplate template) {

@@ -1,8 +1,12 @@
 package com.yeyeye.ezsender.model.impl;
 
 import com.yeyeye.ezsender.model.ParamModel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -13,7 +17,7 @@ import java.util.Map;
  * @Date 2023/4/20 16:37
  */
 @Data
-@Builder
+@NoArgsConstructor
 public class SmsParamModel implements ParamModel {
     private String messageTemplateCode;
     private String signName;

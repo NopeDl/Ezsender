@@ -1,6 +1,7 @@
 package com.yeyeye.ezsender.action.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yeyeye.ezsender.action.Processor;
 import com.yeyeye.ezsender.enums.MQConstant;
 import com.yeyeye.ezsender.pipline.ProcessContext;
@@ -19,8 +20,8 @@ public class SendMq implements Processor {
 
     @Override
     public void process(ProcessContext context) {
-//        String taskInfoStr = JSON.toJSONString(context.getTaskInfos());
-//        System.out.println(taskInfoStr);
-        rabbitTemplate.convertAndSend(MQConstant.EXCHANGE_NAME, MQConstant.ROUTING_KEY, context.getTaskInfos());
+        rabbitTemplate.convertAndSend(MQConstant.EXCHANGE_NAME
+                , MQConstant.ROUTING_KEY
+                , JSON.toJSONString(context.getTaskInfos(), SerializerFeature.WriteClassName));
     }
 }

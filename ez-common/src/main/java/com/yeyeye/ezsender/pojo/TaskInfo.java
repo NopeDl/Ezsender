@@ -1,5 +1,6 @@
 package com.yeyeye.ezsender.pojo;
 
+import com.yeyeye.ezsender.model.ParamModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,5 +34,5 @@ public class TaskInfo {
     /**
      * 填充模板的参数
      */
-    private Map<String, String> messageParams;
+    private ParamModel paramModel;
 }

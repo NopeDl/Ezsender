@@ -1,5 +1,7 @@
 package com.yeyeye.ezsender.receiver;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yeyeye.ezsender.enums.MQConstant;
 import com.yeyeye.ezsender.pojo.TaskInfo;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -21,7 +23,9 @@ public class MessageReceiver {
     private TaskDispatcher taskDispatcher;
 
     @RabbitListener(queues = MQConstant.QUEUE_NAME)
-    public void receiver(List<TaskInfo> taskInfos) {
+    public void receiver(String msg) {
+        System.out.println(msg);
+        List<TaskInfo> taskInfos = JSON.parseArray(msg, TaskInfo.class);
         //获取任务类型
         List<Task> tasks = new ArrayList<>();
         for (TaskInfo taskInfo : taskInfos) {

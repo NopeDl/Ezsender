@@ -13,19 +13,20 @@ public enum Params {
     /**
      * 模板Code（短信）
      */
-    MESSAGE_TEMPLATE_CODE("MESSAGE_TEMPLATE_CODE"),
+    MESSAGE_TEMPLATE_CODE("messageTemplateCode"),
     /**
      * 模板签名（短信）
      */
-    SIGN_NAME("SIGN_NAME"),
+    SIGN_NAME("signName"),
     /**
      * 模板ID
      */
-    MESSAGE_TEMPLATE_ID("MESSAGE_TEMPLATE_ID"),
-    CREATOR("CREATOR"),
-    RECEIVER("RECEIVER"),
-    CONTENT("CONTENT"),
-    TITLE("TITLE");
+    MESSAGE_TEMPLATE_ID("messageTemplateId"),
+    CREATOR("creator"),
+    RECEIVER("receiver"),
+    CONTENT("content"),
+    TITLE("title"),
+    PARAMS("params");
 
     private final String content;
     public static final int SIZE;

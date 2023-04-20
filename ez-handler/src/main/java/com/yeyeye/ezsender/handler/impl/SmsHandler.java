@@ -1,8 +1,8 @@
 package com.yeyeye.ezsender.handler.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.yeyeye.ezsender.enums.Params;
 import com.yeyeye.ezsender.handler.Handler;
+import com.yeyeye.ezsender.model.impl.SmsParamModel;
 import com.yeyeye.ezsender.pojo.SmsInfo;
 import com.yeyeye.ezsender.pojo.SmsRecord;
 import com.yeyeye.ezsender.pojo.TaskInfo;
@@ -24,11 +24,12 @@ public class SmsHandler implements Handler {
 
     @Override
     public void handle(TaskInfo taskInfo) {
+        SmsParamModel paramModel = (SmsParamModel) taskInfo.getParamModel();
         SmsRecord send = smsScript.send(SmsInfo.builder()
                 .phoneNumbers(taskInfo.getReceiver())
-                .templateCode(taskInfo.getMessageParams().get(Params.MESSAGE_TEMPLATE_CODE.getContent()))
-                .signName(taskInfo.getMessageParams().get(Params.SIGN_NAME.getContent()))
-                .templateParam(taskInfo.getMessageParams().get(Params.CONTENT.getContent()))
+                .templateCode(paramModel.getMessageTemplateCode())
+                .signName(paramModel.getSignName())
+                .templateParam(JSON.toJSONString(paramModel.getParams()))
                 .build());
         System.out.println(JSON.toJSONString(send));
     }

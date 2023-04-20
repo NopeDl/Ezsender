@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
+    @ExceptionHandler(Exception.class)
+    public SendResponse<?> exception(Exception e){
+        return SendResponse.fail(e.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public SendResponse methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    public SendResponse<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         return SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS, e.getAllErrors().get(0).getDefaultMessage());
     }
 }

@@ -1,7 +1,11 @@
 package com.yeyeye.ezsender.utils;
 
+import cn.hutool.core.util.StrUtil;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +28,21 @@ public class PlaceHolderUtil {
         while (matcher.find()) {
             String group = matcher.group();
             res.add(group.substring(2, group.length() - 1));
+        }
+        return res;
+    }
+
+    public static String replace(String content, Map<String, String> params) {
+        if (StrUtil.isBlank(content)) {
+            return content;
+        }
+        Matcher matcher = DEFAULT_PATTEN.matcher(content);
+        String res = "";
+        while (matcher.find()) {
+            String group = matcher.group();
+            String val = group.substring(2, group.length() - 1);
+            res = matcher.replaceFirst(params.getOrDefault(val, ""));
+            matcher = DEFAULT_PATTEN.matcher(res);
         }
         return res;
     }

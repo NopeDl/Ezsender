@@ -2,6 +2,8 @@ package com.yeyeye.ezsender.handler.impl;
 
 import com.yeyeye.ezsender.enums.Params;
 import com.yeyeye.ezsender.handler.Handler;
+import com.yeyeye.ezsender.model.impl.MailParamModel;
+import com.yeyeye.ezsender.model.impl.SmsParamModel;
 import com.yeyeye.ezsender.pojo.TaskInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,10 +26,11 @@ public class MailHandler implements Handler {
     @Override
     public void handle(TaskInfo taskInfo) {
         SimpleMailMessage message = new SimpleMailMessage();
+        MailParamModel paramModel = (MailParamModel) taskInfo.getParamModel();
         message.setTo(taskInfo.getReceiver());
         message.setFrom(fromEmail);
-        message.setSubject(taskInfo.getMessageParams().get(Params.TITLE.getContent()));
-        message.setText(taskInfo.getMessageParams().get(Params.CONTENT.getContent()));
+        message.setSubject(paramModel.getTitle());
+        message.setText(paramModel.getContent());
         javaMailSender.send(message);
     }
 }
