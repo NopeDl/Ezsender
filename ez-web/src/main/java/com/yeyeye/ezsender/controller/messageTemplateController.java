@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * @author yeyeye
  * @Date 2023/4/12 21:42
@@ -24,11 +26,18 @@ public class messageTemplateController {
     @RequestMapping("/add")
     @ResponseBody
     public SendResponse addTemplate(@RequestBody MessageTemplate messageTemplate) {
-        if (JSONObject.isValid(messageTemplate.getContent())) {
-            int insert = messageTemplateMapper.insert(messageTemplate);
+        int insert = messageTemplateMapper.insert(messageTemplate);
+        if (insert > 0) {
             return new SendResponse("新建成功", insert + "");
+        } else {
+            return SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS);
         }
-        return SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS);
+    }
+
+    @RequestMapping("/getAll")
+    @ResponseBody
+    public List<MessageTemplate> getAll() {
+        return messageTemplateMapper.selectList(null);
     }
 
 }

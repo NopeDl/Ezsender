@@ -9,8 +9,7 @@ import lombok.Data;
  * @Date 2023/4/7 16:25
  */
 @Data
-@AllArgsConstructor
-public class SendResponse {
+public class SendResponse<T> {
     /**
      * 响应状态码
      */
@@ -21,6 +20,8 @@ public class SendResponse {
      */
     private String content;
 
+    private T data;
+
     private SendResponse() {
     }
 
@@ -29,13 +30,24 @@ public class SendResponse {
         this.content = status.getContent();
     }
 
+    public SendResponse(String code, String content) {
+        this.code = code;
+        this.content = content;
+    }
+
+    public SendResponse(T data) {
+        this.code = ResponseStatus.SEND_SUCCESS.getCode();
+        this.content = ResponseStatus.SEND_SUCCESS.getContent();
+        this.data = data;
+    }
+
     /**
      * 默认无参发送成功
      *
      * @return 响应体
      */
-    public static SendResponse success() {
-        return new SendResponse(ResponseStatus.SEND_SUCCESS);
+    public static SendResponse<Void> success() {
+        return new SendResponse<>(ResponseStatus.SEND_SUCCESS);
     }
 
     /**
@@ -43,8 +55,8 @@ public class SendResponse {
      *
      * @return 响应体
      */
-    public static SendResponse success(String content) {
-        return new SendResponse(ResponseStatus.SEND_SUCCESS.getCode(), content);
+    public static SendResponse<Void> success(String content) {
+        return new SendResponse<>(ResponseStatus.SEND_SUCCESS.getCode(), content);
     }
 
     /**
@@ -52,8 +64,8 @@ public class SendResponse {
      *
      * @return 响应体
      */
-    public static SendResponse fail() {
-        return new SendResponse(ResponseStatus.SEND_FAIL);
+    public static SendResponse<Void> fail() {
+        return new SendResponse<>(ResponseStatus.SEND_FAIL);
     }
 
     /**
@@ -62,11 +74,15 @@ public class SendResponse {
      * @param content 内容
      * @return 响应体
      */
-    public static SendResponse fail(String content) {
-        return new SendResponse(ResponseStatus.SEND_FAIL.getCode(), content);
+    public static SendResponse<Void> fail(String content) {
+        return new SendResponse<>(ResponseStatus.SEND_FAIL.getCode(), content);
     }
 
-    public static SendResponse fail(ResponseStatus status) {
-        return new SendResponse(status.getCode(), status.getContent());
+    public static SendResponse<Void> fail(ResponseStatus status) {
+        return new SendResponse<>(status.getCode(), status.getContent());
+    }
+
+    public static SendResponse<Void> fail(ResponseStatus status, String content) {
+        return new SendResponse<>(status.getCode(), content);
     }
 }

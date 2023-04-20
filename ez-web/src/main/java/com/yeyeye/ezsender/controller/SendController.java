@@ -3,24 +3,24 @@ package com.yeyeye.ezsender.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.yeyeye.ezsender.enums.OperateCode;
-import com.yeyeye.ezsender.enums.Params;
 import com.yeyeye.ezsender.enums.ResponseStatus;
 import com.yeyeye.ezsender.mapper.MessageTemplateMapper;
-import com.yeyeye.ezsender.pojo.RequestParamTemplate;
+import com.yeyeye.ezsender.pojo.RequestParamDTO;
 import com.yeyeye.ezsender.pojo.SendRequest;
 import com.yeyeye.ezsender.pojo.SendResponse;
-import com.yeyeye.ezsender.pojo.TaskInfo;
 import com.yeyeye.ezsender.handler.Handler;
 import com.yeyeye.ezsender.service.SendService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,10 +29,8 @@ import java.util.Map;
  */
 @Slf4j
 @Controller
+@RequestMapping
 public class SendController {
-    @Autowired
-    private Handler handler;
-
     @Autowired
     private SendService sendService;
 
@@ -41,23 +39,13 @@ public class SendController {
 
     @RequestMapping("/test")
     @ResponseBody
-    public void testMapper(){
-        System.out.println(mapper.selectCount(null));
+    public String testMapper() {
+        return String.valueOf(mapper.selectCount(null));
     }
 
-//    @RequestMapping("/send1")
-//    @ResponseBody
-//    public String sendByNoneParam(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("signName") String sign, @RequestParam("messageTemplateCode") String messageTemplateCode) {
-//        Map<Params, String> senderParams = new HashMap<>();
-//        senderParams.put(Params.SIGN_NAME, sign);
-//        senderParams.put(Params.MESSAGE_TEMPLATE_CODE, messageTemplateCode);
-//        handler.handle(TaskInfo.builder().senderParams(senderParams).receiver(phoneNumber).build());
-//        return "OK";
-//    }
-
-    @RequestMapping("/send")
+    @PostMapping("/send")
     @ResponseBody
-    public SendResponse testSend(@RequestBody RequestParamTemplate template) {
+    public SendResponse<?> sendSms(@RequestBody @Valid RequestParamDTO template) {
         Map<String, String> params = JSON.parseObject(template.getContent(), new TypeReference<>() {
         });
         try {

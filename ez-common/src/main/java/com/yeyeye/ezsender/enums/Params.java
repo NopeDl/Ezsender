@@ -24,7 +24,8 @@ public enum Params {
     MESSAGE_TEMPLATE_ID("MESSAGE_TEMPLATE_ID"),
     CREATOR("CREATOR"),
     RECEIVER("RECEIVER"),
-    CONTENT("CONTENT");
+    CONTENT("CONTENT"),
+    TITLE("TITLE");
 
     private final String content;
     public static final int SIZE;

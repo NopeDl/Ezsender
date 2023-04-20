@@ -13,7 +13,8 @@ import java.util.Map;
  */
 @Getter
 public enum TaskType {
-    SMS(101);
+    SMS(101),
+    MAIL(102);
 
     /**
      * 类型ID
