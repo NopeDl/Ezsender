@@ -21,22 +21,22 @@ public class PreCheckProcessor implements Processor {
         SendRequest request = context.getRequest();
         if (request == null) {
             context.setNeedBreak(true);
-            context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_REQUEST));
+            context.setResponse(new SendResponse<>(ResponseStatus.ILLEGAL_REQUEST));
             return;
         }
         if (request.getMessageTemplateId() == null) {
             context.setNeedBreak(true);
-            context.setResponse(new SendResponse(ResponseStatus.LOSING_PARAMS.getCode(), Params.MESSAGE_TEMPLATE_ID.getContent()));
+            context.setResponse(new SendResponse<>(ResponseStatus.LOSING_PARAMS.getCode(), Params.MESSAGE_TEMPLATE_ID.getContent()));
             return;
         }
         if (request.getCreator() == null) {
             context.setNeedBreak(true);
-            context.setResponse(new SendResponse(ResponseStatus.LOSING_PARAMS.getCode(), Params.CREATOR.getContent()));
+            context.setResponse(new SendResponse<>(ResponseStatus.LOSING_PARAMS.getCode(), Params.CREATOR.getContent()));
             return;
         }
         if (request.getReceiver() == null) {
             context.setNeedBreak(true);
-            context.setResponse(new SendResponse(ResponseStatus.LOSING_PARAMS.getCode(), Params.RECEIVER.getContent()));
+            context.setResponse(new SendResponse<>(ResponseStatus.LOSING_PARAMS.getCode(), Params.RECEIVER.getContent()));
             return;
         }
     }

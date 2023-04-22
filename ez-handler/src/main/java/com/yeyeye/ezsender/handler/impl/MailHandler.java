@@ -1,10 +1,9 @@
 package com.yeyeye.ezsender.handler.impl;
 
-import com.yeyeye.ezsender.enums.Params;
 import com.yeyeye.ezsender.handler.Handler;
 import com.yeyeye.ezsender.model.impl.MailParamModel;
-import com.yeyeye.ezsender.model.impl.SmsParamModel;
 import com.yeyeye.ezsender.pojo.TaskInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -16,10 +15,10 @@ import org.springframework.stereotype.Component;
  * @Date 2023/4/19 23:47
  */
 @Component
+@Slf4j
 public class MailHandler implements Handler {
     @Autowired
     private JavaMailSender javaMailSender;
-
     @Value("${spring.mail.username}")
     private String fromEmail;
 

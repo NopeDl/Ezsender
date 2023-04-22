@@ -19,4 +19,8 @@ public class Task implements Runnable {
     public void run() {
         handlerMap.get(taskInfo.getTaskType()).handle(taskInfo);
     }
+
+    public TaskInfo getTaskInfo() {
+        return taskInfo;
+    }
 }

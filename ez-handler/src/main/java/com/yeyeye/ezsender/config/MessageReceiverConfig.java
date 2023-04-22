@@ -1,20 +1,15 @@
 package com.yeyeye.ezsender.config;
 
 import com.yeyeye.ezsender.enums.TaskType;
-import com.yeyeye.ezsender.handler.Handler;
 import com.yeyeye.ezsender.handler.impl.MailHandler;
 import com.yeyeye.ezsender.handler.impl.SmsHandler;
+import com.yeyeye.ezsender.receiver.RejectedHandler;
 import com.yeyeye.ezsender.receiver.TaskDispatcher;
+import com.yeyeye.ezsender.utils.ThreadPoolUtil;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author yeyeye
@@ -24,19 +19,9 @@ import java.util.concurrent.TimeUnit;
 public class MessageReceiverConfig {
     @Bean
     public TaskDispatcher taskDispatcher(SmsHandler smsHandler, MailHandler mailHandler) {
-        ThreadPoolExecutor smsPool = new ThreadPoolExecutor(4,
-                6,
-                1,
-                TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(5));
-        ThreadPoolExecutor mailPool = new ThreadPoolExecutor(4,
-                6,
-                1,
-                TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(5));
         return new TaskDispatcher()
-                .registry(TaskType.SMS.getCode(), smsPool, smsHandler)
-                .registry(TaskType.MAIL.getCode(), mailPool, mailHandler);
+                .registry(TaskType.SMS.getCode(), ThreadPoolUtil.newDefaultThreadPool(), smsHandler)
+                .registry(TaskType.MAIL.getCode(), ThreadPoolUtil.newDefaultThreadPool(), mailHandler);
     }
 
     @Bean

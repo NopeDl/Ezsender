@@ -48,18 +48,13 @@ public class SendController {
     public SendResponse<?> sendSms(@RequestBody @Valid RequestParamDTO template) {
         Map<String, String> params = JSON.parseObject(template.getContent(), new TypeReference<>() {
         });
-        try {
-            SendRequest sendRequest = SendRequest.builder()
-                    .messageTemplateId(template.getMessageTemplateId())
-                    .operate(OperateCode.get(template.getOperate()))
-                    .params(params)
-                    .creator(template.getCreator())
-                    .receiver(template.getReceiver())
-                    .build();
-            return sendService.send(sendRequest);
-        } catch (Exception e) {
-            log.debug(e.getMessage());
-            return SendResponse.fail(ResponseStatus.ILLEGAL_REQUEST);
-        }
+        SendRequest sendRequest = SendRequest.builder()
+                .messageTemplateId(template.getMessageTemplateId())
+                .operate(OperateCode.get(template.getOperate()))
+                .params(params)
+                .creator(template.getCreator())
+                .receiver(template.getReceiver())
+                .build();
+        return sendService.send(sendRequest);
     }
 }

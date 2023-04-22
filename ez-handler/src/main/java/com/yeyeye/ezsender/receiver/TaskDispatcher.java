@@ -3,6 +3,10 @@ package com.yeyeye.ezsender.receiver;
 import com.yeyeye.ezsender.enums.TaskType;
 import com.yeyeye.ezsender.handler.Handler;
 import com.yeyeye.ezsender.pojo.TaskInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +19,11 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author yeyeye
  * @Date 2023/4/11 22:37
  */
+@Slf4j
 public class TaskDispatcher {
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     private static final Map<Integer, ThreadPoolExecutor> TASK_POOL_MAP = new HashMap<>();
 
     private static final Map<Integer, Handler> TASK_HANDLER_MAP = new HashMap<>();
@@ -39,12 +47,15 @@ public class TaskDispatcher {
     /**
      * 转发任务
      *
-     * @param taskType 任务类型
-     * @param tasks    任务列表
+     * @param task 任务
      */
-    public void dispatch(int taskType, List<Task> tasks) {
-        for (Task task : tasks) {
-            TASK_POOL_MAP.get(taskType).execute(task);
+    public boolean dispatch(Task task) {
+        try {
+            TASK_POOL_MAP.get(task.getTaskInfo().getTaskType()).execute(task);
+            return true;
+        } catch (Exception e) {
+            log.error("任务转发发生异常：{}，当前任务信息：{}", e.getMessage(), task.getTaskInfo());
+            return false;
         }
     }
 }

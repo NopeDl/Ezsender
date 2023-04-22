@@ -46,11 +46,8 @@ public class AssembleParamProcessor implements Processor {
             context.setNeedBreak(true);
             return;
         }
-        /**
-         * 获取数据模型并且组合
-         */
+        //获取数据模型并且组合
         ParamModel paramModel = getParamModel(request.getParams(), messageTemplate);
-
         //将模板参数封装进任务信息
         TaskInfo taskInfo = TaskInfo.builder()
                 .messageTemplateId(request.getMessageTemplateId())
@@ -60,6 +57,10 @@ public class AssembleParamProcessor implements Processor {
         //将组装好的放入ProcessContext中
         ArrayList<TaskInfo> taskInfos = new ArrayList<>();
         taskInfos.add(taskInfo);
+        //测试
+//        for (int i = 0; i < 10; i++) {
+//            taskInfos.add(taskInfo);
+//        }
         context.setTaskInfos(taskInfos);
     }
 
@@ -90,7 +91,6 @@ public class AssembleParamProcessor implements Processor {
             }
             jsonObject.put(Params.PARAMS.getContent(), map);
         }
-
         //获取模板内容
         Field[] fields = ReflectUtil.getFields(paramModel.getClass());
         for (Field field : fields) {
