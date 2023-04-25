@@ -3,23 +3,17 @@ package com.yeyeye.ezsender.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.yeyeye.ezsender.enums.OperateCode;
-import com.yeyeye.ezsender.enums.ResponseStatus;
 import com.yeyeye.ezsender.mapper.MessageTemplateMapper;
 import com.yeyeye.ezsender.pojo.RequestParamDTO;
 import com.yeyeye.ezsender.pojo.SendRequest;
 import com.yeyeye.ezsender.pojo.SendResponse;
-import com.yeyeye.ezsender.handler.Handler;
+import com.yeyeye.ezsender.service.ConsumeService;
 import com.yeyeye.ezsender.service.SendService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 

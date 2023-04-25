@@ -1,13 +1,12 @@
 package com.yeyeye.ezsender.action.impl;
 
-import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yeyeye.ezsender.action.Processor;
 import com.yeyeye.ezsender.enums.Params;
 import com.yeyeye.ezsender.enums.ResponseStatus;
-import com.yeyeye.ezsender.factory.ParamModelFactory;
+import com.yeyeye.ezsender.enums.TaskType;
 import com.yeyeye.ezsender.mapper.MessageTemplateMapper;
 import com.yeyeye.ezsender.model.ParamModel;
 import com.yeyeye.ezsender.pipline.ProcessContext;
@@ -70,10 +69,11 @@ public class AssembleParamProcessor implements Processor {
      * @return 参数模型
      */
     private ParamModel getParamModel(Map<String, String> params, MessageTemplate messageTemplate) {
-        ParamModel paramModel = ParamModelFactory.getInstance(messageTemplate.getTaskType());
-        if (paramModel == null) {
-            throw new RuntimeException("获取参数模型失败");
+        Class<? extends ParamModel> clazz = TaskType.get(messageTemplate.getTaskType()).getClazz();
+        if (clazz == null) {
+            throw new RuntimeException("获取参数模型类型失败");
         }
+        ParamModel paramModel = ReflectUtil.newInstance(clazz);
         //替换占位符
         JSONObject jsonObject = JSON.parseObject(messageTemplate.getContent());
         String jsonContent = (String) jsonObject.get(Params.CONTENT.getContent());

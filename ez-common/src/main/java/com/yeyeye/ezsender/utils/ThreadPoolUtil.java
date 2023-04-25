@@ -10,10 +10,10 @@ import java.util.concurrent.*;
  * @Date 2023/4/22 22:32
  */
 public class ThreadPoolUtil {
-    public static final int CORE_POOL_SIZE = 1;
-    public static final int MAX_MUM_POOL_SIZE = 1;
+    public static final int CORE_POOL_SIZE = 4;
+    public static final int MAX_MUM_POOL_SIZE = 10;
     public static final int DEFAULT_KEEP_ALIVE_TIME = 10;
-    public static final int DEFAULT_BLOCKING_QUEUE_SIZE = 1;
+    public static final int DEFAULT_BLOCKING_QUEUE_SIZE = 100;
 
     /**
      * 创建一个默认线程池

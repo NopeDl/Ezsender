@@ -23,7 +23,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public SendResponse<?> exception(Exception e) {
-         log.error(getStackTrace(e));
+        log.error("未知异常，堆栈信息：", e);
         return SendResponse.fail();
     }
 
@@ -31,24 +31,5 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     public SendResponse<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         return SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS, e.getAllErrors().get(0).getDefaultMessage());
-    }
-
-    /**
-     * 获取错误的堆栈信息
-     *
-     * @param throwable
-     * @return
-     */
-    private String getStackTrace(Throwable throwable) {
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-
-        try {
-            throwable.printStackTrace(printWriter);
-            return stringWriter.toString();
-        } finally {
-            printWriter.close();
-        }
-
     }
 }

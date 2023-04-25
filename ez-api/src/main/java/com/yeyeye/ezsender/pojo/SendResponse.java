@@ -18,7 +18,7 @@ public class SendResponse<T> {
     /**
      * 响应内容
      */
-    private String content;
+    private String msg;
 
     private T data;
 
@@ -27,17 +27,17 @@ public class SendResponse<T> {
 
     public SendResponse(ResponseStatus status) {
         this.code = status.getCode();
-        this.content = status.getContent();
+        this.msg = status.getContent();
     }
 
-    public SendResponse(String code, String content) {
+    public SendResponse(String code, String msg) {
         this.code = code;
-        this.content = content;
+        this.msg = msg;
     }
 
     public SendResponse(T data) {
         this.code = ResponseStatus.SEND_SUCCESS.getCode();
-        this.content = ResponseStatus.SEND_SUCCESS.getContent();
+        this.msg = ResponseStatus.SEND_SUCCESS.getContent();
         this.data = data;
     }
 

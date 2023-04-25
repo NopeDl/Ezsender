@@ -14,5 +14,5 @@ public interface SendService {
      * @param request 请求封装
      * @return 响应
      */
-    SendResponse send(SendRequest request);
+    SendResponse<?> send(SendRequest request);
 }

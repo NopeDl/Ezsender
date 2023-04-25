@@ -1,5 +1,8 @@
 package com.yeyeye.ezsender.enums;
 
+import com.yeyeye.ezsender.model.ParamModel;
+import com.yeyeye.ezsender.model.impl.MailParamModel;
+import com.yeyeye.ezsender.model.impl.SmsParamModel;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -13,13 +16,15 @@ import java.util.Map;
  */
 @Getter
 public enum TaskType {
-    SMS(101),
-    MAIL(102);
+    SMS(101, SmsParamModel.class),
+    MAIL(102, MailParamModel.class);
 
     /**
      * 类型ID
      */
     private int code;
+
+    private Class<? extends ParamModel> clazz;
 
     private static final Map<Integer, TaskType> MAP;
 
@@ -34,7 +39,8 @@ public enum TaskType {
         return MAP.get(taskType);
     }
 
-    TaskType(int code) {
+    TaskType(int code, Class<? extends ParamModel> clazz) {
         this.code = code;
+        this.clazz = clazz;
     }
 }

@@ -20,10 +20,10 @@ public class PlaceHolderUtil {
     public static final Pattern DEFAULT_PATTEN = Pattern.compile(DEFAULT_REGEX);
 
     public static List<String> getParams(String content) {
-        if (content == null || "".equals(content)) {
-            return null;
-        }
         List<String> res = new ArrayList<>();
+        if (content == null || "".equals(content)) {
+            return res;
+        }
         Matcher matcher = DEFAULT_PATTEN.matcher(content);
         while (matcher.find()) {
             String group = matcher.group();
