@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
-
 /**
  * @author yeyeye
  * @Date 2023/4/4 19:54
@@ -17,6 +15,11 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskInfo {
+    /**
+     * 业务号，每个任务对应一份
+     */
+    private Long businessId;
+
     /**
      * 任务所属模板ID
      */

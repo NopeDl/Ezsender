@@ -14,6 +14,7 @@ import com.yeyeye.ezsender.pojo.SendRequest;
 import com.yeyeye.ezsender.pojo.SendResponse;
 import com.yeyeye.ezsender.pojo.TaskInfo;
 import com.yeyeye.ezsender.pojo.po.MessageTemplate;
+import com.yeyeye.ezsender.utils.BusinessUtil;
 import com.yeyeye.ezsender.utils.PlaceHolderUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
@@ -47,8 +48,11 @@ public class AssembleParamProcessor implements Processor {
         }
         //获取数据模型并且组合
         ParamModel paramModel = getParamModel(request.getParams(), messageTemplate);
+        //生成业务ID
+        Long businessId = BusinessUtil.generateBusinessId(messageTemplate);
         //将模板参数封装进任务信息
         TaskInfo taskInfo = TaskInfo.builder()
+                .businessId(businessId)
                 .messageTemplateId(request.getMessageTemplateId())
                 .receiver(request.getReceiver())
                 .paramModel(paramModel)
@@ -56,10 +60,6 @@ public class AssembleParamProcessor implements Processor {
         //将组装好的放入ProcessContext中
         ArrayList<TaskInfo> taskInfos = new ArrayList<>();
         taskInfos.add(taskInfo);
-        //测试
-//        for (int i = 0; i < 10; i++) {
-//            taskInfos.add(taskInfo);
-//        }
         context.setTaskInfos(taskInfos);
     }
 

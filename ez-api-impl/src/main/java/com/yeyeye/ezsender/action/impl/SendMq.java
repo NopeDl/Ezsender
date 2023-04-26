@@ -4,8 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yeyeye.ezsender.action.Processor;
 import com.yeyeye.ezsender.enums.MQConstant;
+import com.yeyeye.ezsender.enums.MessageStatus;
 import com.yeyeye.ezsender.pipline.ProcessContext;
-import lombok.extern.slf4j.Slf4j;
+import com.yeyeye.ezsender.utils.LogUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Component;
  * @Date 2023/4/10 22:28
  */
 @Component
-@Slf4j
 public class SendMq implements Processor {
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -23,9 +23,10 @@ public class SendMq implements Processor {
     @Override
     public void process(ProcessContext context) {
         String json = JSON.toJSONString(context.getTaskInfos(), SerializerFeature.WriteClassName);
-        rabbitTemplate.convertAndSend(MQConstant.EXCHANGE_NAME,
+        rabbitTemplate.convertAndSend(
+                MQConstant.EXCHANGE_NAME,
                 MQConstant.ROUTING_KEY,
                 json);
-        log.info("发送至MQ的数据{}", json);
+        LogUtil.info(MessageStatus.SEND_MQ, json);
     }
 }

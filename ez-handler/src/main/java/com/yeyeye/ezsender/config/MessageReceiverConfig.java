@@ -3,7 +3,6 @@ package com.yeyeye.ezsender.config;
 import com.yeyeye.ezsender.enums.TaskType;
 import com.yeyeye.ezsender.handler.impl.MailHandler;
 import com.yeyeye.ezsender.handler.impl.SmsHandler;
-import com.yeyeye.ezsender.receiver.RejectedHandler;
 import com.yeyeye.ezsender.receiver.TaskDispatcher;
 import com.yeyeye.ezsender.utils.ThreadPoolUtil;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;

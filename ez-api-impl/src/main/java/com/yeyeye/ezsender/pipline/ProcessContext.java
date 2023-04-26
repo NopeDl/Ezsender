@@ -1,6 +1,5 @@
 package com.yeyeye.ezsender.pipline;
 
-import com.yeyeye.ezsender.model.ParamModel;
 import com.yeyeye.ezsender.pojo.SendRequest;
 import com.yeyeye.ezsender.pojo.SendResponse;
 import com.yeyeye.ezsender.pojo.TaskInfo;
@@ -19,8 +18,20 @@ import java.util.List;
 @Data
 @Builder
 public class ProcessContext {
+    /**
+     * 请求
+     */
     private SendRequest request;
+    /**
+     * 响应
+     */
     private SendResponse<?> response;
+    /**
+     * 上下文处理结果
+     */
     private List<TaskInfo> taskInfos;
+    /**
+     * 上下文是否需要被打断
+     */
     private boolean needBreak;
 }

@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <appender name="GELF" class="de.siegmar.logbackgelf.GelfUdpAppender">
+        <!-- Graylog服务的地址 -->
+        <graylogHost>110.41.21.66</graylogHost>
+        <!-- UDP Input端口 -->
+        <graylogPort>12201</graylogPort>
+        <!-- 最大GELF数据块大小（单位：字节），508为建议最小值，最大值为65467 -->
+        <maxChunkSize>508</maxChunkSize>
+        <!-- 是否使用压缩 -->
+        <useCompression>true</useCompression>
+        <encoder class="de.siegmar.logbackgelf.GelfEncoder">
+            <!-- 是否发送原生的日志信息 -->
+            <includeRawMessage>false</includeRawMessage>
+            <includeMarker>true</includeMarker>
+            <includeMdcData>true</includeMdcData>
+            <includeCallerData>false</includeCallerData>
+            <includeRootCauseData>false</includeRootCauseData>
+            <!-- 是否发送日志级别的名称，否则默认以数字代表日志级别 -->
+            <includeLevelName>true</includeLevelName>
+            <shortPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%m%nopex</pattern>
+            </shortPatternLayout>
+            <fullPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%d - [%thread] %-5level %logger{35} - %msg%n</pattern>
+            </fullPatternLayout>
+
+            <!-- 配置应用名称（服务名称），通过staticField标签可以自定义一些固定的日志字段 -->
+            <staticField>app_name:Ezsender</staticField>
+        </encoder>
+    </appender>
+
+
+
 
     <!--日志输出路径 相对路径,和springboot应用jar文件同级目录-->
     <property name="LOG_HOME" value="D:\proj_log"/>
@@ -14,18 +46,6 @@
             <charset>UTF-8</charset><!--此处设置字符集-->
         </encoder>
     </appender>
-
-    <!--控制台日志输出配置-->
-    <appender name="consoleLog2" class="ch.qos.logback.core.ConsoleAppender">
-        <!--对输出日志进行格式化-->
-        <encoder>
-            <!-- %d日期,%p日志级别,%file文件名,%line所在行数,%m输出的信息,%n换行 -->
-            <pattern>%black(console--) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{10}) - %cyan(%msg%n)</pattern>
-            <!--字符编码-->
-            <charset>UTF-8</charset><!--此处设置字符集-->
-        </encoder>
-    </appender>
-
 
     <!--日志文件配置info-->
     <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -85,6 +105,7 @@
     <logger name="com.yeyeye.ezsender" level="INFO">
         <appender-ref ref="fileInfoLog"/>
         <appender-ref ref="fileErrorLog"/>
+        <appender-ref ref="GELF"/>
     </logger>
 </configuration>
 

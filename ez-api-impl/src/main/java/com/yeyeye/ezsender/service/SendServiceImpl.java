@@ -17,7 +17,7 @@ public class SendServiceImpl implements SendService {
     private ProcessController processController;
 
     @Override
-    public SendResponse send(SendRequest request) {
+    public SendResponse<?> send(SendRequest request) {
         ProcessContext context = ProcessContext.builder().request(request).response(SendResponse.success()).build();
         processController.process(context);
         return context.getResponse();

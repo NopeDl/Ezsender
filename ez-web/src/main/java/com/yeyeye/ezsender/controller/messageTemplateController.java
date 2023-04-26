@@ -1,16 +1,12 @@
 package com.yeyeye.ezsender.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yeyeye.ezsender.enums.ResponseStatus;
 import com.yeyeye.ezsender.mapper.MessageTemplateMapper;
 import com.yeyeye.ezsender.pojo.SendResponse;
 import com.yeyeye.ezsender.pojo.po.MessageTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,12 +20,23 @@ public class messageTemplateController {
     @Autowired
     private MessageTemplateMapper messageTemplateMapper;
 
-    @RequestMapping("/add")
+    @PostMapping("/add")
     @ResponseBody
-    public SendResponse<?> addTemplate(@RequestBody MessageTemplate messageTemplate) {
+    public SendResponse<?> add(@RequestBody MessageTemplate messageTemplate) {
         int insert = messageTemplateMapper.insert(messageTemplate);
         if (insert > 0) {
             return new SendResponse<>("新建成功", insert + "");
+        } else {
+            return SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS);
+        }
+    }
+
+    @PostMapping("/del")
+    @ResponseBody
+    public SendResponse<?> del(@RequestBody MessageTemplate messageTemplate) {
+        int insert = messageTemplateMapper.deleteById(messageTemplate);
+        if (insert > 0) {
+            return new SendResponse<>(messageTemplate);
         } else {
             return SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS);
         }

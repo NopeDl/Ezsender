@@ -8,8 +8,7 @@ import com.yeyeye.ezsender.pojo.SendResponse;
 import com.yeyeye.ezsender.pojo.TaskInfo;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 处理掉非法参数
@@ -31,39 +30,22 @@ public class PostCheckProcessor implements Processor {
             context.setResponse(SendResponse.fail(ResponseStatus.LOSING_PARAMS));
             return;
         }
-//        //说明出现未规定的参数
-//        if (taskInfos.size() > Params.SIZE) {
-//            context.setNeedBreak(true);
-//            context.setResponse(SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS));
-//            return;
-//        }
 
         taskInfos.forEach((taskInfo) -> {
             //验证接受者格式是否匹配
-            String receiver = taskInfo.getReceiver();
-            if (!receiver.matches(PHONE_REGEX) && !receiver.matches(MAIL_REGEX)) {
-                context.setNeedBreak(true);
-                context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "非法接受者: " + receiver));
-                return;
+            String receiverStr = taskInfo.getReceiver();
+            //对接受者去重
+            Set<String> receivers = new HashSet<>(List.of(receiverStr.split(",")));
+            StringJoiner sj = new StringJoiner(",");
+            for (String receiver : receivers) {
+                if (!receiver.matches(PHONE_REGEX) && !receiver.matches(MAIL_REGEX)) {
+                    context.setNeedBreak(true);
+                    context.setResponse(new SendResponse<>(ResponseStatus.ILLEGAL_PARAMS.getCode(), "非法接受者: " + receiver));
+                    return;
+                }
+                sj.add(receiver);
             }
-
-//            //验证参数
-//            Map<String, String> messageParams = taskInfo.getMessageParams();
-//            for (String key : messageParams.keySet()) {
-//                //不是规定参数
-//                if (Params.get(key) == null) {
-//                    context.setNeedBreak(true);
-//                    context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "非法参数: " + key));
-//                    return;
-//                }
-//
-//                //参数为null或为空串
-//                if (messageParams.get(key) == null || "".equals(messageParams.get(key))) {
-//                    context.setNeedBreak(true);
-//                    context.setResponse(new SendResponse(ResponseStatus.ILLEGAL_PARAMS.getCode(), "参数不能为空: " + key));
-//                    return;
-//                }
-//            }
+            taskInfo.setReceiver(sj.toString());
         });
     }
 }

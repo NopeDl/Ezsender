@@ -37,7 +37,6 @@ public class PreCheckProcessor implements Processor {
         if (request.getReceiver() == null) {
             context.setNeedBreak(true);
             context.setResponse(new SendResponse<>(ResponseStatus.LOSING_PARAMS.getCode(), Params.RECEIVER.getContent()));
-            return;
         }
     }
 }

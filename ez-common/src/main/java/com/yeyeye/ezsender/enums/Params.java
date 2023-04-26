@@ -14,18 +14,27 @@ public enum Params {
      * 模板Code（短信）
      */
     MESSAGE_TEMPLATE_CODE("messageTemplateCode"),
+    BUSINESS_ID("businessId"),
+    RECORDS("records"),
+
     /**
      * 模板签名（短信）
      */
     SIGN_NAME("signName"),
+
     /**
      * 模板ID
      */
     MESSAGE_TEMPLATE_ID("messageTemplateId"),
+
     CREATOR("creator"),
+
     RECEIVER("receiver"),
+
     CONTENT("content"),
+
     TITLE("title"),
+
     PARAMS("params");
 
     private final String content;
