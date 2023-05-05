@@ -1,6 +1,5 @@
 package com.yeyeye.ezsender.duplicate.config;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**

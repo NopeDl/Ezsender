@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 
 /**
@@ -27,9 +29,12 @@ public class SimilarDuplicateRule extends BaseDuplicateRule {
     public void duplication(TaskInfo taskInfo) {
         Iterator<String> receivers = taskInfo.getReceiver().iterator();
         while (receivers.hasNext()) {
-            Long increment = redisTemplate.opsForValue().increment(SIMILAR_DUPLICATE_PREFIX + receivers.next());
-            if (increment != null && increment > limit) {
-                //说明达到限制了，要取消掉本次发送
+            //去重前缀 + 接受者 + 模板ID
+            Boolean setSuccess = redisTemplate.opsForValue().setIfAbsent(SIMILAR_DUPLICATE_PREFIX + receivers.next() + taskInfo.getMessageTemplateId(),
+                    LocalDateTime.now().toString(),
+                    Duration.ofSeconds(limit));
+            if (setSuccess != null && !setSuccess) {
+                //说明在一段时间内当前接受者已经发过同模板了，需要取消掉本次发送
                 receivers.remove();
             }
         }

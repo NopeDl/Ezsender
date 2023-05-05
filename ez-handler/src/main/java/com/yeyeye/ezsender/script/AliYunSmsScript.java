@@ -21,24 +21,23 @@ import java.util.concurrent.ExecutionException;
  */
 @Component
 public class AliYunSmsScript implements SmsScript {
-    @Value("${sms.ali.accessKeyId}")
+    @Value("${spring.sms.ali.accessKeyId}")
     private String accessKeyId;
-    @Value("${sms.ali.accessKeySecret}")
+    @Value("${spring.sms.ali.accessKeySecret}")
     private String accessKeySecret;
 
     @Override
     public SmsRecord send(SmsInfo info) {
-        AsyncClient client = initClient();
-        SendSmsRequest sendSmsRequest = SendSmsRequest.builder()
-                .signName(info.getSignName())
-                .templateCode(info.getTemplateCode())
-                .phoneNumbers(info.getPhoneNumbers())
-                .templateParam(info.getTemplateParam())
-                .smsUpExtendCode(info.getSmsUpExtendCode())
-                .outId(info.getOutId())
-                .build();
-        CompletableFuture<SendSmsResponse> response = client.sendSms(sendSmsRequest);
-        try {
+        try (AsyncClient client = initClient();) {
+            SendSmsRequest sendSmsRequest = SendSmsRequest.builder()
+                    .signName(info.getSignName())
+                    .templateCode(info.getTemplateCode())
+                    .phoneNumbers(info.getPhoneNumbers())
+                    .templateParam(info.getTemplateParam())
+                    .smsUpExtendCode(info.getSmsUpExtendCode())
+                    .outId(info.getOutId())
+                    .build();
+            CompletableFuture<SendSmsResponse> response = client.sendSms(sendSmsRequest);
             SendSmsResponseBody body = response.get().getBody();
             return SmsRecord.builder()
                     .code(body.getCode())

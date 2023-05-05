@@ -4,6 +4,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yeyeye.ezsender.duplicate.config.BaseDuplicateRuleConfig;
+import com.yeyeye.ezsender.duplicate.config.DuplicateRuleConfig;
 import com.yeyeye.ezsender.duplicate.rule.DuplicateRule;
 import com.yeyeye.ezsender.duplicate.rule.DuplicateRuleEnum;
 import com.yeyeye.ezsender.duplicate.rule.DuplicateRuleFactory;
@@ -25,33 +26,37 @@ import java.util.Map;
 public class DuplicateServiceImpl implements DuplicateService {
     @Autowired
     private DuplicateRuleFactory duplicateRuleFactory;
+    @Autowired
+    private DuplicateRuleConfig duplicateRuleConfig;
 
     @Override
     public void duplicateTask(TaskInfo taskInfo) {
         //Todo 获取规则
-        //规则一： 同一用户 五分钟内 被推送多次同一模板，单位为s
-        String rule1 = "{\"limit\" : \"5\", \"rule\" : 100}";
-        //规则二： 同一用户 一天内 被推送多次消息
-        String rule2 = "{\"limit\":\"86400\",\"rule\":101 ,\"num\":5}";
-        //封装并添加规则
+//        //规则一： 同一用户 五分钟内 被推送多次同一模板，单位为s
+        String rule1 = duplicateRuleConfig.getRule1();
+//        //规则二： 同一用户 一天内 被推送多次消息
+        String rule2 = duplicateRuleConfig.getRule2();
+        List<String> configs = new ArrayList<>();
+        configs.add(rule1);
+        configs.add(rule2);
         List<BaseDuplicateRuleConfig> rules = new ArrayList<>();
-        rules.add(assembleConfig(rule1));
-        rules.add(assembleConfig(rule2));
+        for (String config : configs) {
+            rules.add(assembleConfig(config));
+        }
+        //封装并添加规则
         //根据规则去重
         for (BaseDuplicateRuleConfig config : rules) {
-            //都用单例，会有线程安全问题，这里暂时用暴力解决
-            synchronized (this) {
-                DuplicateRule duplicateRule = duplicateRuleFactory.getInstance(config);
-                if (duplicateRule == null) {
-                    continue;
-                }
-                duplicateRule.duplicate(taskInfo);
+            //都用单例，可能会在规则变更时有线程安全问题，这里暂时不解决
+            DuplicateRule duplicateRule = duplicateRuleFactory.getInstance(config);
+            if (duplicateRule == null) {
+                continue;
             }
+            duplicateRule.duplicate(taskInfo);
         }
     }
 
     /**
-     * 组装config
+     * 组装con fig
      *
      * @param rule 一个json
      * @return 组装好的config
