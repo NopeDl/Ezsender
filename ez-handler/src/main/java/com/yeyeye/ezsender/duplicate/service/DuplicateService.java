@@ -14,7 +14,7 @@ public interface DuplicateService {
     /**
      * 对任务去重
      *
-     * @param taskInfos 一堆任务
+     * @param taskInfo 任务
      */
-    void duplicateBatchTask(List<TaskInfo> taskInfos);
+    void duplicateTask(TaskInfo taskInfo);
 }

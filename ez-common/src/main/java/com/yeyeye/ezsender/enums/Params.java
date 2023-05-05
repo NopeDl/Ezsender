@@ -14,7 +14,13 @@ public enum Params {
      * 模板Code（短信）
      */
     MESSAGE_TEMPLATE_CODE("messageTemplateCode"),
+    /**
+     * 业务ID，每个请求到达API层都会创建一个
+     */
     BUSINESS_ID("businessId"),
+    /**
+     * 短信第三方发送结果
+     */
     RECORDS("records"),
 
     /**
@@ -35,7 +41,15 @@ public enum Params {
 
     TITLE("title"),
 
-    PARAMS("params");
+    PARAMS("params"),
+    /**
+     * 规则ID
+     */
+    RULE("rule"),
+    /**
+     * 时间限制，单位为秒(s)
+     */
+    LIMIT("limit");
 
     private final String content;
     public static final int SIZE;

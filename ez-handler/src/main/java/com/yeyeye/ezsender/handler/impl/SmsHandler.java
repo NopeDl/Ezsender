@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.StringJoiner;
 
 
 /**
@@ -30,8 +32,14 @@ public class SmsHandler implements Handler {
     @Override
     public void handle(TaskInfo taskInfo) {
         SmsParamModel paramModel = (SmsParamModel) taskInfo.getParamModel();
+        Set<String> receivers = taskInfo.getReceiver();
+        StringJoiner sj = new StringJoiner(",");
+        for (String receiver : receivers) {
+            sj.add(receiver);
+        }
+        String receiver = sj.toString();
         SmsRecord record = smsScript.send(SmsInfo.builder()
-                .phoneNumbers(taskInfo.getReceiver())
+                .phoneNumbers(receiver)
                 .templateCode(paramModel.getMessageTemplateCode())
                 .signName(paramModel.getSignName())
                 .templateParam(JSON.toJSONString(paramModel.getParams()))

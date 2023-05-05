@@ -5,7 +5,6 @@ import com.yeyeye.ezsender.pojo.SendResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -18,14 +17,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class ExceptionControllerAdvice {
     @ExceptionHandler(Exception.class)
-    @ResponseBody
     public SendResponse<?> exception(Exception e) {
         log.error("未知异常，堆栈信息：", e);
         return SendResponse.fail();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseBody
     public SendResponse<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         log.info("参数异常：", e);
         return SendResponse.fail(ResponseStatus.ILLEGAL_PARAMS, e.getAllErrors().get(0).getDefaultMessage());

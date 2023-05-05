@@ -9,6 +9,7 @@ public enum ResponseStatus {
     ILLEGAL_REQUEST("ILLEGAL_REQUEST", "参数有误"),
     LOSING_PARAMS("LOSING_PARAMS", "缺少参数"),
     ILLEGAL_PARAMS("ILLEGAL_PARAMS", "非法参数"),
+    ERROR_RULE("ERROR_RULE", "错误规则"),
     SEND_FAIL("FAIL", "发送失败");
 
     private String code;

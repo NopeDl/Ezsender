@@ -41,6 +41,12 @@ public class SendResponse<T> {
         this.data = data;
     }
 
+    public SendResponse(ResponseStatus status, T data) {
+        this.code = status.getCode();
+        this.msg = status.getContent();
+        this.data = data;
+    }
+
     /**
      * 默认无参发送成功
      *

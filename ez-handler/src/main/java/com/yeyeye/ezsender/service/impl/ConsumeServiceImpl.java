@@ -1,5 +1,6 @@
 package com.yeyeye.ezsender.service.impl;
 
+import com.yeyeye.ezsender.duplicate.service.DuplicateService;
 import com.yeyeye.ezsender.pojo.TaskInfo;
 import com.yeyeye.ezsender.receiver.Task;
 import com.yeyeye.ezsender.receiver.TaskDispatcher;
@@ -19,13 +20,15 @@ import java.util.List;
 public class ConsumeServiceImpl implements ConsumeService {
     @Autowired
     private TaskDispatcher taskDispatcher;
+    @Autowired
+    private DuplicateService duplicateService;
 
     @Override
     public void consumeToSend(List<TaskInfo> taskInfos) {
         //去重
         //包装成任务类型并转发任务
         for (TaskInfo taskInfo : taskInfos) {
-            Task task = new Task(taskInfo, taskDispatcher.getTaskHandlerMap());
+            Task task = new Task(taskInfo, taskDispatcher.getTaskHandlerMap(), duplicateService);
             taskDispatcher.dispatch(task);
         }
     }

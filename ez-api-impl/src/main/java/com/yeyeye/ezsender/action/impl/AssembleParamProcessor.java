@@ -20,10 +20,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 将request参数组装为TaskInfo
@@ -50,11 +47,13 @@ public class AssembleParamProcessor implements Processor {
         ParamModel paramModel = getParamModel(request.getParams(), messageTemplate);
         //生成业务ID
         Long businessId = BusinessUtil.generateBusinessId(messageTemplate);
+        //生成receiver
+        Set<String> receivers = new HashSet<>(List.of(request.getReceiver().split(",")));
         //将模板参数封装进任务信息
         TaskInfo taskInfo = TaskInfo.builder()
                 .businessId(businessId)
                 .messageTemplateId(request.getMessageTemplateId())
-                .receiver(request.getReceiver())
+                .receiver(receivers)
                 .paramModel(paramModel)
                 .taskType(messageTemplate.getTaskType()).build();
         //将组装好的放入ProcessContext中

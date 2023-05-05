@@ -11,7 +11,11 @@ public enum MessageStatus {
     CONSUME("002", "消息已被消费"),
     DISPATCHER_SUCCESS("003", "转发失败"),
     DISPATCHER_FAILED("004", "转发成功"),
-    SEND_API("005", "发送至第三方API"),
+    DUPLICATE_SUCCESS("005", "去重成功"),
+    SIMILAR_DUPLICATE("005101", "101去重"),
+    MULTI_PUSH_DUPLICATE("005102", "102去重"),
+    DUPLICATE_FAILED("006", "去重失败"),
+    SEND_API("007", "发送至第三方API"),
     ERROR("000", "错误异常");
     private final String code;
     private final String content;

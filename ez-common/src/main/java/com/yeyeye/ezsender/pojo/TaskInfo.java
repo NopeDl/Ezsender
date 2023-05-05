@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 /**
  * @author yeyeye
  * @Date 2023/4/4 19:54
@@ -32,7 +34,7 @@ public class TaskInfo {
     /**
      * 消息接受者
      */
-    private String receiver;
+    private Set<String> receiver;
 
     /**
      * 填充模板的参数

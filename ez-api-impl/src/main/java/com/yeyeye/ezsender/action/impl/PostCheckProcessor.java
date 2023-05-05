@@ -33,19 +33,14 @@ public class PostCheckProcessor implements Processor {
 
         taskInfos.forEach((taskInfo) -> {
             //验证接受者格式是否匹配
-            String receiverStr = taskInfo.getReceiver();
-            //对接受者去重
-            Set<String> receivers = new HashSet<>(List.of(receiverStr.split(",")));
-            StringJoiner sj = new StringJoiner(",");
+            Set<String> receivers = taskInfo.getReceiver();
             for (String receiver : receivers) {
                 if (!receiver.matches(PHONE_REGEX) && !receiver.matches(MAIL_REGEX)) {
                     context.setNeedBreak(true);
                     context.setResponse(new SendResponse<>(ResponseStatus.ILLEGAL_PARAMS.getCode(), "非法接受者: " + receiver));
                     return;
                 }
-                sj.add(receiver);
             }
-            taskInfo.setReceiver(sj.toString());
         });
     }
 }
